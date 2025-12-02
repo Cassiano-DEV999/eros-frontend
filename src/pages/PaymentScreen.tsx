@@ -47,7 +47,7 @@ export default function PaymentScreen() {
       
       // Criar agendamento no backend
       await appointmentsApi.create({
-        doctorId,
+        doctorId: doctor.id,
         date,
         time,
         notes: 'Agendamento via Cartão',
@@ -75,7 +75,7 @@ export default function PaymentScreen() {
       
       // Criar agendamento no backend
       await appointmentsApi.create({
-        doctorId,
+        doctorId: doctor.id,
         date,
         time,
         notes: 'Agendamento via PIX',

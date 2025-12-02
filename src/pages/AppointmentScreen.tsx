@@ -15,6 +15,7 @@ export default function AppointmentScreen() {
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error] = useState('');
 
   useEffect(() => {
     loadDoctors();

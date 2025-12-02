@@ -13,15 +13,16 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog';
-import { ArrowLeft, Plus, Pill, Tablets, X } from 'lucide-react';
+import { ArrowLeft, Plus, Pill, Tablets } from 'lucide-react';
 import { toast } from 'sonner';
 import { treatmentsApi } from '@/services/api';
 import type { Treatment } from '@/types';
 
 export default function TreatmentsScreen() {
   const navigate = useNavigate();
-  const [treatments, setTreatments] = useState<Treatment | null>(null);
+  const [treatment, setTreatment] = useState<Treatment | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error] = useState('');
   const [showMedicationDialog, setShowMedicationDialog] = useState(false);
   const [showSupplementDialog, setShowSupplementDialog] = useState(false);
   const [medicationForm, setMedicationForm] = useState({

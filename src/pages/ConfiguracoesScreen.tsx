@@ -43,12 +43,12 @@ export default function ConfiguracoesScreen() {
     try {
       // Atualizar localStorage (em produção, fazer chamada à API)
       const updatedUser = { 
-        ...user, 
+        ...user!, 
         ...formData,
         pregnantWeeks: formData.pregnantWeeks ? parseInt(formData.pregnantWeeks) : undefined,
       };
       localStorage.setItem('eros_user', JSON.stringify(updatedUser));
-      setUser(updatedUser as User);
+      setUser(updatedUser);
       toast.success('Configurações salvas com sucesso!');
     } catch (error) {
       toast.error('Erro ao salvar configurações');
