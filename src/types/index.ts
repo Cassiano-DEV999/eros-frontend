@@ -10,6 +10,7 @@ export interface SupportNetworkMember {
     name: string;
     email: string;
     phone: string | null;
+    avatar?: string;
   };
 }
 
@@ -23,6 +24,7 @@ export interface SupportLink {
     name: string;
     email: string;
     phone: string | null;
+    avatar?: string;
   };
 }
 
@@ -35,6 +37,8 @@ export interface User {
   shareCode: string | null;
   createdAt: string;
   updatedAt: string;
+  avatar?: string;
+  pregnantWeeks?: number;
   supportNetwork?: SupportNetworkMember[];
   supportingPregnant?: SupportLink | null;
 }
@@ -63,7 +67,7 @@ export interface Appointment {
   time: string;
   type: string;
   location: string;
-  status: 'scheduled' | 'completed' | 'cancelled';
+  status: 'SCHEDULED' | 'PENDING' | 'CONFIRMED' | 'COMPLETED' | 'CANCELLED';
   observations?: string;
 }
 
@@ -71,7 +75,8 @@ export interface AppointmentBooking {
   doctorId: string;
   date: string;
   time: string;
-  type: string;
+  type?: string;
+  notes?: string;
 }
 
 export interface Medication {

@@ -172,7 +172,7 @@ export default function AgendaScreen() {
                     </div>
 
                     {/* Ações */}
-                    {appointment.status === 'SCHEDULED' && (
+                    {(appointment.status === 'SCHEDULED' || appointment.status === 'PENDING' || appointment.status === 'CONFIRMED') && (
                       <div className="flex gap-2 mt-4">
                         <Button
                           variant="outline"

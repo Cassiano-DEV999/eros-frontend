@@ -50,6 +50,7 @@ export default function PaymentScreen() {
         doctorId,
         date,
         time,
+        notes: 'Agendamento via Cartão',
       });
       
       setPaymentSuccess(true);
@@ -77,6 +78,7 @@ export default function PaymentScreen() {
         doctorId,
         date,
         time,
+        notes: 'Agendamento via PIX',
       });
       
       // Aguardar 2 segundos mostrando o check verde antes de fechar

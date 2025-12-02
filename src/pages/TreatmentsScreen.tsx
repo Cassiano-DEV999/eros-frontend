@@ -20,9 +20,8 @@ import type { Treatment } from '@/types';
 
 export default function TreatmentsScreen() {
   const navigate = useNavigate();
-  const [treatment, setTreatment] = useState<Treatment | null>(null);
+  const [treatments, setTreatments] = useState<Treatment | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
   const [showMedicationDialog, setShowMedicationDialog] = useState(false);
   const [showSupplementDialog, setShowSupplementDialog] = useState(false);
   const [medicationForm, setMedicationForm] = useState({
