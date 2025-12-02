@@ -130,7 +130,7 @@ export default function HomeScreen() {
           </button>
           <button
             className="flex flex-col items-center space-y-1 text-muted-foreground"
-            onClick={() => navigate('/tratamentos')}
+            onClick={() => navigate('/relatorios')}
           >
             <FileText className="w-6 h-6" />
             <span className="text-xs">Relatórios</span>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 import type {
   ApiResponse,
@@ -12,16 +13,14 @@ import type {
   AuthResponse,
 } from '@/types';
 
-// Create axios instance with base configuration
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8080/api',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:9002/api',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Request interceptor to add auth token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('eros_token');
@@ -35,7 +34,6 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor for error handling
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -48,7 +46,6 @@ api.interceptors.response.use(
   }
 );
 
-// Auth API
 export const authApi = {
   login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
     const { data } = await api.post<ApiResponse<AuthResponse>>('/auth/login', credentials);
@@ -72,7 +69,6 @@ export const authApi = {
   },
 };
 
-// Doctors API
 export const doctorsApi = {
   getAll: async (): Promise<Doctor[]> => {
     const { data } = await api.get<ApiResponse<Doctor[]>>('/doctors');
@@ -92,7 +88,6 @@ export const doctorsApi = {
   },
 };
 
-// Appointments API
 export const appointmentsApi = {
   getAll: async (): Promise<Appointment[]> => {
     const { data } = await api.get<ApiResponse<Appointment[]>>('/appointments');
@@ -114,7 +109,6 @@ export const appointmentsApi = {
   },
 };
 
-// Treatments API
 export const treatmentsApi = {
   getAll: async (): Promise<Treatment> => {
     const { data } = await api.get<ApiResponse<Treatment>>('/treatments');
@@ -130,7 +124,6 @@ export const treatmentsApi = {
   },
 };
 
-// Payments API
 export const paymentsApi = {
   getAll: async (): Promise<Payment[]> => {
     const { data } = await api.get<ApiResponse<Payment[]>>('/payments');
@@ -147,6 +140,13 @@ export const paymentsApi = {
 
   getById: async (id: string): Promise<Payment> => {
     const { data } = await api.get<ApiResponse<Payment>>(`/payments/${id}`);
+    return data.data;
+  },
+};
+
+export const supportNetworkApi = {
+  get: async () => {
+    const { data } = await api.get<ApiResponse<any>>('/support-network');
     return data.data;
   },
 };

@@ -76,13 +76,38 @@ export default function AppointmentScreen() {
     }
   };
 
-  const availableDates = [
-    { date: '12/11', day: 'Quarta-feira' },
-    { date: '13/11', day: 'Quinta-feira' },
-    { date: '14/11', day: 'Sexta-feira' },
-  ];
+  // Gerar próximos 7 dias úteis a partir de hoje
+  const getAvailableDates = () => {
+    const dates = [];
+    const today = new Date();
+    const daysOfWeek = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+    
+    let currentDate = new Date(today);
+    let addedDays = 0;
+    
+    while (addedDays < 7) {
+      currentDate.setDate(today.getDate() + addedDays);
+      const dayOfWeek = currentDate.getDay();
+      
+      // Pular finais de semana (0 = domingo, 6 = sábado)
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        const day = String(currentDate.getDate()).padStart(2, '0');
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+        dates.push({
+          date: `${day}/${month}`,
+          fullDate: `${currentDate.getFullYear()}-${month}-${day}`,
+          day: daysOfWeek[dayOfWeek],
+        });
+      }
+      addedDays++;
+    }
+    
+    return dates;
+  };
 
-  const timeSlots = ['8:00', '8:30', '9:00', '9:30', '10:00', '11:00'];
+  const availableDates = getAvailableDates();
+
+  const timeSlots = ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00'];
 
   if (loading) {
     return (
@@ -219,13 +244,13 @@ export default function AppointmentScreen() {
               {timeSlots.map((time) => (
                 <Button
                   key={time}
-                  variant={selectedDate === dateInfo.date && selectedTime === time ? 'default' : 'outline'}
-                  className={`rounded-full px-4 py-2 text-sm ${selectedDate === dateInfo.date && selectedTime === time
+                  variant={selectedDate === dateInfo.fullDate && selectedTime === time ? 'default' : 'outline'}
+                  className={`rounded-full px-4 py-2 text-sm ${selectedDate === dateInfo.fullDate && selectedTime === time
                     ? 'bg-primary text-white'
                     : ''
                     }`}
                   onClick={() => {
-                    setSelectedDate(dateInfo.date);
+                    setSelectedDate(dateInfo.fullDate);
                     setSelectedTime(time);
                   }}
                 >

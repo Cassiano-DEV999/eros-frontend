@@ -23,9 +23,11 @@ export default function LoginScreen() {
       const response = await authApi.login({ email, password });
       localStorage.setItem('eros_token', response.token);
       localStorage.setItem('eros_user', JSON.stringify(response.user));
-      navigate('/home');
+      
+      // Redirecionar e recarregar para garantir que o estado seja atualizado
+      window.location.href = '/home';
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Erro ao fazer login');
+      setError(err.response?.data?.error || err.response?.data?.message || 'Erro ao fazer login');
     } finally {
       setLoading(false);
     }
@@ -50,9 +52,9 @@ export default function LoginScreen() {
         <div className="w-full max-w-md">
           <Card>
             <CardHeader>
-              <CardTitle className="text-2xl">Olá Beatriz, Como você está se sentindo hoje?</CardTitle>
+              <CardTitle className="text-2xl">Bem-vinda de volta!</CardTitle>
               <p className="text-sm text-muted-foreground mt-2">
-                Seu bem-estar e a prioridade, mas também precisamos saber de você
+                Entre com seu email e senha para continuar
               </p>
             </CardHeader>
             <CardContent>

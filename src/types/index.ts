@@ -1,15 +1,44 @@
-// User Types
+export type UserType = 'PREGNANT' | 'SUPPORT_NETWORK';
+
+export interface SupportNetworkMember {
+  id: string;
+  relationship: string;
+  status: 'ACTIVE' | 'INACTIVE' | 'PENDING';
+  createdAt: string;
+  support: {
+    id: string;
+    name: string;
+    email: string;
+    phone: string | null;
+  };
+}
+
+export interface SupportLink {
+  id: string;
+  relationship: string;
+  status: 'ACTIVE' | 'INACTIVE' | 'PENDING';
+  createdAt: string;
+  pregnant: {
+    id: string;
+    name: string;
+    email: string;
+    phone: string | null;
+  };
+}
+
 export interface User {
   id: string;
   name: string;
   email: string;
-  role: 'gestante' | 'rede_apoio';
-  avatar?: string;
-  pregnantWeeks?: number;
-  dueDate?: string;
+  phone: string | null;
+  userType: UserType;
+  shareCode: string | null;
+  createdAt: string;
+  updatedAt: string;
+  supportNetwork?: SupportNetworkMember[];
+  supportingPregnant?: SupportLink | null;
 }
 
-// Doctor Types
 export interface Doctor {
   id: string;
   name: string;
@@ -26,7 +55,6 @@ export interface TimeSlot {
   available: boolean;
 }
 
-// Appointment Types
 export interface Appointment {
   id: string;
   doctorId: string;
@@ -46,7 +74,6 @@ export interface AppointmentBooking {
   type: string;
 }
 
-// Treatment Types
 export interface Medication {
   id: string;
   name: string;
@@ -70,7 +97,6 @@ export interface Treatment {
   supplements: Supplement[];
 }
 
-// Payment Types
 export interface Payment {
   id: string;
   appointmentId: string;
@@ -87,7 +113,6 @@ export interface PaymentMethod {
   icon: string;
 }
 
-// API Response Types
 export interface ApiResponse<T> {
   data: T;
   message?: string;
@@ -100,7 +125,6 @@ export interface ApiError {
   details?: unknown;
 }
 
-// Auth Types
 export interface LoginCredentials {
   email: string;
   password: string;
@@ -110,8 +134,10 @@ export interface RegisterData {
   name: string;
   email: string;
   password: string;
-  role: 'gestante' | 'rede_apoio';
-  pregnantWeeks?: number;
+  phone?: string;
+  userType: UserType;
+  shareCode?: string;
+  relationship?: string;
 }
 
 export interface AuthResponse {

@@ -1,14 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Baby, Users } from 'lucide-react';
 
 export default function OnboardingScreen() {
   const navigate = useNavigate();
 
-  const handleUserTypeSelect = (role: 'gestante' | 'rede_apoio') => {
-    localStorage.setItem('eros_user_role', role);
-    navigate('/login');
+  const handleStart = () => {
+    navigate('/user-type');
   };
 
   return (
@@ -36,65 +33,39 @@ export default function OnboardingScreen() {
         <h1 className="text-5xl font-bold text-white tracking-wider">EROS</h1>
       </div>
 
-      {/* Seleção de tipo de usuário */}
+      {/* Descrição */}
       <div className="w-full max-w-md">
-        <h2 className="text-xl font-semibold text-white text-center mb-3">
-          Quem usará o EROS?
-        </h2>
-        <p className="text-white/90 text-center text-sm mb-8">
-          Escolha seu perfil para começar
-        </p>
 
-        <div className="space-y-4">
-          {/* Gestante */}
-          <Card
-            className="cursor-pointer hover:scale-[1.02] transition-transform"
-            onClick={() => handleUserTypeSelect('gestante')}
-          >
-            <CardContent className="p-6">
-              <div className="flex items-center space-x-4">
-                <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center">
-                  <Baby className="w-8 h-8 text-white" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-lg">Gestante</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Acompanhe sua gestação
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Rede de Apoio */}
-          <Card
-            className="cursor-pointer hover:scale-[1.02] transition-transform"
-            onClick={() => handleUserTypeSelect('rede_apoio')}
-          >
-            <CardContent className="p-6">
-              <div className="flex items-center space-x-4">
-                <div className="w-16 h-16 bg-secondary rounded-2xl flex items-center justify-center">
-                  <Users className="w-8 h-8 text-white" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-lg">Rede de Apoio</h3>
-                  <p className="text-sm text-muted-foreground">
-                    (do Gestante)
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="text-center text-white/90 mb-6">
+          <p className="text-lg mb-2">
+            Seu companheiro de cuidados durante a gestação
+          </p>
+          <ul className="text-sm space-y-2">
+            <li>✨ Agende consultas com especialistas</li>
+            <li>💊 Controle medicamentos e suplementos</li>
+            <li>👥 Compartilhe com sua rede de apoio</li>
+            <li>📊 Acompanhe todo o histórico</li>
+          </ul>
         </div>
 
-        {/* Botão de prosseguir (alternativo) */}
-        <Button
-          variant="outline"
-          className="w-full mt-8 bg-white/10 border-white/30 text-white hover:bg-white/20"
-          onClick={() => navigate('/login')}
-        >
-          Próximo
-        </Button>
+        {/* Botões de ação */}
+        <div className="space-y-3">
+          <Button
+            className="w-full bg-white text-primary hover:bg-white/90 font-semibold"
+            size="lg"
+            onClick={handleStart}
+          >
+            Começar
+          </Button>
+
+          <Button
+            variant="outline"
+            className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20"
+            onClick={() => navigate('/login')}
+          >
+            Já tenho uma conta
+          </Button>
+        </div>
       </div>
     </div>
   );

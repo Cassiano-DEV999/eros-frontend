@@ -1,16 +1,21 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { authApi } from '@/services/api';
 import { ArrowLeft } from 'lucide-react';
+import type { UserType } from '@/types';
 
 export default function RegisterScreen() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const userType = (location.state?.userType || 'PREGNANT') as UserType;
+  
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -25,21 +30,29 @@ export default function RegisterScreen() {
       return;
     }
 
+    if (password.length < 6) {
+      setError('A senha deve ter no mínimo 6 caracteres');
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const role = localStorage.getItem('eros_user_role') as 'gestante' | 'rede_apoio';
       const response = await authApi.register({
         name,
         email,
         password,
-        role: role || 'gestante',
+        phone: phone || undefined,
+        userType,
       });
+      
       localStorage.setItem('eros_token', response.token);
       localStorage.setItem('eros_user', JSON.stringify(response.user));
-      navigate('/home');
+      
+      // Redirecionar e recarregar para garantir que o estado seja atualizado
+      window.location.href = '/home';
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Erro ao cadastrar');
+      setError(err.response?.data?.error || 'Erro ao cadastrar');
     } finally {
       setLoading(false);
     }
@@ -64,9 +77,14 @@ export default function RegisterScreen() {
         <div className="w-full max-w-md">
           <Card>
             <CardHeader>
-              <CardTitle className="text-2xl">Seja bem vindo ao EROS</CardTitle>
+              <CardTitle className="text-2xl">
+                {userType === 'PREGNANT' ? 'Cadastro de Gestante' : 'Cadastro de Rede de Apoio'}
+              </CardTitle>
               <p className="text-sm text-muted-foreground mt-2">
-                Primeiro, precisamos saber mais sobre você
+                {userType === 'PREGNANT' 
+                  ? 'Primeiro, precisamos saber mais sobre você'
+                  : 'Preencha seus dados para apoiar uma gestante'
+                }
               </p>
             </CardHeader>
             <CardContent>
@@ -98,7 +116,19 @@ export default function RegisterScreen() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password">Senha</Label>
+                  <Label htmlFor="phone">Telefone (opcional)</Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    placeholder="(11) 99999-9999"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="focus-visible:ring-primary"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="password">Senha (mínimo 6 caracteres)</Label>
                   <Input
                     id="password"
                     type="password"
